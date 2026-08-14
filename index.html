@@ -287,6 +287,7 @@
 <script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
 <script>
 /* ============ SCÈNE 3D WEBGL ============ */
+try {
 const canvas = document.getElementById('bg');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
 renderer.setSize(innerWidth, innerHeight);
@@ -387,6 +388,7 @@ window.__scene3d = { renderer: renderer, scene: scene, camera: camera, core: cor
   camera.lookAt(0,0,0);
   renderer.render(scene, camera);
 })();
+} catch (err) { var bgEl = document.getElementById('bg'); if (bgEl) bgEl.style.display = 'none'; }
 
 /* ============ BOUTONS OFFRE → FORMULAIRE ============ */
 document.querySelectorAll('[data-offre]').forEach(a => {
