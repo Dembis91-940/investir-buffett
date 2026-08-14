@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investir Long Terme — La patience est un avantage</title>
+<meta name="description" content="Le guide complet pour investir en bourse comme Buffett : mentalité long terme, cercle de compétence, marge de sécurité, effet composé. Sans être riche. Sans stress.">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI', system-ui, sans-serif; background:#070b14; color:#e8ecf5; overflow-x:hidden; }
+  #bg { position:fixed; inset:0; z-index:0; }
+  .content { position:relative; z-index:2; }
+
+  /* Nav */
+  .nav { position:fixed; top:0; left:0; right:0; z-index:10; display:flex; justify-content:space-between; align-items:center;
+         padding:1.2rem 2.5rem; background:linear-gradient(rgba(7,11,20,.85), transparent); }
+  .logo { font-weight:800; font-size:1.15rem; letter-spacing:.02em; }
+  .logo span { color:#38bdf8; }
+  .nav a { color:#aab8d0; text-decoration:none; margin-left:1.5rem; font-size:.9rem; }
+  .nav a:hover { color:#7dd3fc; }
+
+  /* Hero */
+  .hero { position:relative; height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; perspective:1000px; }
+  .hero-inner { transform-style:preserve-3d; }
+  .layer { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; will-change:transform; }
+  .title { font-size:clamp(2.2rem, 6vw, 4.8rem); font-weight:800; letter-spacing:-0.02em; line-height:1.08;
+           background:linear-gradient(120deg,#5eead4,#38bdf8,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent;
+           text-shadow:0 0 40px rgba(56,189,248,.25); }
+  .title .accent { background:linear-gradient(120deg,#38bdf8,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .badge { display:inline-flex; align-items:center; gap:.5rem; background:rgba(56,189,248,.12); border:1px solid rgba(56,189,248,.35);
+           color:#7dd3fc; font-size:.8rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase;
+           padding:.45rem 1.1rem; border-radius:999px; margin-bottom:1.6rem; }
+  .subtitle { font-size:clamp(1rem, 2vw, 1.35rem); color:#9fb0c9; margin-top:1.2rem; font-weight:300; max-width:640px; margin-left:auto; margin-right:auto; line-height:1.6; }
+  .cta { margin-top:2.4rem; display:inline-flex; gap:.8rem; flex-wrap:wrap; justify-content:center; }
+  .btn { padding:.9rem 2rem; border-radius:999px; font-weight:600; text-decoration:none; transition:transform .2s, box-shadow .2s; display:inline-block; }
+  .btn-primary { background:linear-gradient(120deg,#0ea5e9,#7c3aed); color:#fff; box-shadow:0 0 30px rgba(124,58,237,.4); }
+  .btn-ghost { border:1px solid rgba(255,255,255,.25); color:#dbe4f0; }
+  .btn:hover { transform:translateY(-3px) scale(1.03); box-shadow:0 0 45px rgba(124,58,237,.65); }
+
+  .scroll-hint { position:absolute; bottom:2.2rem; left:50%; transform:translateX(-50%); color:#5b6b85; font-size:.8rem; letter-spacing:.25em; text-transform:uppercase; animation:float 2.4s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translate(-50%,0)} 50%{transform:translate(-50%,-10px)} }
+
+  /* Sections */
+  .section { min-height:80vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6rem 6vw; }
+  .section h2 { font-size:clamp(1.8rem, 4vw, 2.8rem); font-weight:800; letter-spacing:-0.01em; text-align:center;
+                background:linear-gradient(120deg,#a5f3fc,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:1rem; }
+  .section .lead { color:#9fb0c9; text-align:center; max-width:640px; line-height:1.7; font-size:1.05rem; }
+
+  /* Chapitres */
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.2rem; margin-top:3rem; max-width:1100px; width:100%; }
+  .chap { background:rgba(13,18,32,.7); border:1px solid rgba(255,255,255,.09); border-radius:18px; padding:1.6rem;
+          backdrop-filter:blur(14px); transition:transform .2s, border-color .2s; }
+  .chap:hover { transform:translateY(-4px); border-color:rgba(56,189,248,.4); }
+  .chap .num { font-size:.75rem; font-weight:700; letter-spacing:.15em; color:#38bdf8; text-transform:uppercase; }
+  .chap h3 { font-size:1.15rem; margin:.5rem 0 .5rem; color:#e8ecf5; }
+  .chap p { color:#8a99b3; font-size:.92rem; line-height:1.6; }
+
+  /* Carte 3D / fermier */
+  .card { max-width:760px; background:rgba(13,18,32,.7); border:1px solid rgba(255,255,255,.09); border-radius:24px;
+          padding:2.8rem; backdrop-filter:blur(14px); transform-style:preserve-3d; will-change:transform; box-shadow:0 30px 80px rgba(0,0,0,.5); margin-top:3rem; }
+  .card h3 { font-size:1.5rem; margin-bottom:.9rem; background:linear-gradient(120deg,#a5f3fc,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .card p { color:#aab8d0; line-height:1.75; margin-bottom:.9rem; }
+  .card p:last-child { margin-bottom:0; }
+  .stats { display:flex; gap:2rem; margin-top:2rem; flex-wrap:wrap; }
+  .stat b { font-size:1.6rem; color:#7dd3fc; display:block; }
+  .stat span { color:#7c8aa5; font-size:.85rem; }
+
+  /* Offres */
+  .offers { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.4rem; margin-top:3rem; max-width:1100px; width:100%; }
+  .offer { background:rgba(13,18,32,.7); border:1px solid rgba(255,255,255,.09); border-radius:22px; padding:2.2rem 1.8rem; position:relative;
+           backdrop-filter:blur(14px); display:flex; flex-direction:column; transition:transform .2s, border-color .2s; }
+  .offer:hover { transform:translateY(-5px); border-color:rgba(167,139,250,.45); }
+  .offer.featured { border-color:rgba(56,189,248,.5); box-shadow:0 0 50px rgba(56,189,248,.12); }
+  .offer .tag { position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:linear-gradient(120deg,#0ea5e9,#7c3aed);
+                color:#fff; font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:.35rem 1rem; border-radius:999px; white-space:nowrap; }
+  .offer .name { font-size:1.1rem; font-weight:700; color:#e8ecf5; }
+  .offer .price { font-size:2.6rem; font-weight:800; margin:.6rem 0; background:linear-gradient(120deg,#5eead4,#38bdf8,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .offer .price small { font-size:1rem; color:#7c8aa5; font-weight:400; -webkit-text-fill-color:#7c8aa5; }
+  .offer ul { list-style:none; margin:1rem 0 1.6rem; flex:1; }
+  .offer ul li { color:#9fb0c9; font-size:.92rem; padding:.45rem 0; padding-left:1.5rem; position:relative; line-height:1.5; }
+  .offer ul li::before { content:'✓'; position:absolute; left:0; color:#5eead4; font-weight:700; }
+  .offer .btn { text-align:center; }
+
+  /* Formulaire */
+  .form-wrap { max-width:620px; width:100%; margin-top:3rem; background:rgba(13,18,32,.75); border:1px solid rgba(255,255,255,.1);
+               border-radius:24px; padding:2.6rem; backdrop-filter:blur(14px); }
+  .form-wrap label { display:block; color:#aab8d0; font-size:.85rem; font-weight:600; margin:.9rem 0 .35rem; letter-spacing:.03em; }
+  .form-wrap input, .form-wrap select, .form-wrap textarea { width:100%; background:rgba(7,11,20,.8); border:1px solid rgba(255,255,255,.14);
+               color:#e8ecf5; border-radius:12px; padding:.85rem 1rem; font-size:.95rem; font-family:inherit; outline:none; transition:border-color .2s; }
+  .form-wrap input:focus, .form-wrap select:focus, .form-wrap textarea:focus { border-color:#38bdf8; }
+  .form-wrap select option { background:#0d1220; }
+  .form-wrap textarea { min-height:90px; resize:vertical; }
+  .form-msg { display:none; margin-top:1.2rem; padding:1rem 1.2rem; border-radius:12px; font-size:.92rem; line-height:1.5; }
+  .form-msg.ok { display:block; background:rgba(94,234,212,.1); border:1px solid rgba(94,234,212,.4); color:#5eead4; }
+  .form-msg.err { display:block; background:rgba(248,113,113,.1); border:1px solid rgba(248,113,113,.4); color:#fca5a5; }
+  .btn-submit { width:100%; margin-top:1.4rem; border:none; cursor:pointer; font-size:1rem; }
+  .small-note { color:#7c8aa5; font-size:.78rem; margin-top:1rem; text-align:center; line-height:1.5; }
+
+  /* FAQ */
+  .faq { max-width:760px; width:100%; margin-top:3rem; }
+  .faq-item { background:rgba(13,18,32,.7); border:1px solid rgba(255,255,255,.09); border-radius:16px; margin-bottom:.8rem; overflow:hidden; backdrop-filter:blur(14px); }
+  .faq-q { width:100%; text-align:left; background:none; border:none; color:#dbe4f0; font-size:1rem; font-weight:600;
+           padding:1.1rem 1.4rem; cursor:pointer; font-family:inherit; display:flex; justify-content:space-between; align-items:center; gap:1rem; }
+  .faq-q::after { content:'+'; color:#38bdf8; font-size:1.3rem; transition:transform .2s; }
+  .faq-item.open .faq-q::after { transform:rotate(45deg); }
+  .faq-a { display:none; padding:0 1.4rem 1.2rem; color:#9fb0c9; line-height:1.7; font-size:.93rem; }
+  .faq-item.open .faq-a { display:block; }
+
+  footer { padding:3rem 2rem; text-align:center; color:#5b6b85; font-size:.82rem; line-height:1.7; }
+  footer a { color:#7dd3fc; text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="logo">Investir<span>LongTerme</span></div>
+  <div>
+    <a href="#methode">La méthode</a>
+    <a href="#fermier">La patience</a>
+    <a href="#offres">Offres</a>
+    <a href="#commander">Commander</a>
+  </div>
+</nav>
+
+<canvas id="bg"></canvas>
+
+<div class="content">
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="layer" data-depth="0.45">
+        <div>
+          <div class="badge">Méthode Buffett · 10 ans · sans jargon</div>
+          <div class="title">La patience est un avantage.<br><span class="accent">Investir comme Buffett, sans être riche.</span></div>
+        </div>
+      </div>
+      <div class="layer" data-depth="0.55" style="top:60%">
+        <div class="subtitle">Un guide dense, chiffré, sans promesses magiques : la mentalité long terme, le cercle de compétence, la marge de sécurité et l'effet composé — pour bâtir un patrimoine en bourse sur 10 ans, sans y passer vos journées.</div>
+      </div>
+      <div class="layer" data-depth="0.7" style="top:80%">
+        <div class="cta">
+          <a class="btn btn-primary" href="#offres">Voir les offres →</a>
+          <a class="btn btn-ghost" href="#methode">La méthode en 8 chapitres</a>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">Défilez</div>
+  </section>
+
+  <section class="section" id="methode">
+    <h2>Ce que le guide contient</h2>
+    <p class="lead">8 chapitres denses, chacun avec une leçon, un exemple chiffré réel et un exercice. Rien à vendre d'autre : une méthode de 40 pages, applicable dès ce soir.</p>
+    <div class="grid">
+      <div class="chap"><div class="num">Chapitre 1</div><h3>La mentalité long terme</h3><p>Pourquoi la durée est le seul avantage que tout le monde peut avoir — et presque personne n'utilise.</p></div>
+      <div class="chap"><div class="num">Chapitre 2</div><h3>Le cercle de compétence</h3><p>Investir uniquement dans ce que vous comprenez vraiment. Le bord du cercle, c'est là que se font les pertes.</p></div>
+      <div class="chap"><div class="num">Chapitre 3</div><h3>La marge de sécurité</h3><p>Acheter 1 € d'actif à 60 centimes : le seul moyen honnête de ne jamais perdre gros.</p></div>
+      <div class="chap"><div class="num">Chapitre 4</div><h3>Lire une entreprise en 30 min</h3><p>Une check-list simple pour juger une boîte : rentabilité, dette, cash, croissance, avantage durable.</p></div>
+      <div class="chap"><div class="num">Chapitre 5</div><h3>L'effet composé</h3><p>La huitième merveille du monde, expliquée avec des chiffres réels — pas des formules intimidantes.</p></div>
+      <div class="chap"><div class="num">Chapitre 6</div><h3>Ignorer le bruit</h3><p>Krachs, médias, « conseils » de collègues : pourquoi le bruit coûte plus cher que les frais.</p></div>
+      <div class="chap"><div class="num">Chapitre 7</div><h3>La patience du fermier</h3><p>Le fermier taoïste qui ne déracine pas ses plants : la leçon de patience la plus ancienne du monde.</p></div>
+      <div class="chap"><div class="num">Chapitre 8</div><h3>Le plan 10 ans</h3><p>Votre feuille de route concrète : combien investir, où, quand, et quoi faire aux krachs.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="fermier">
+    <h2>La parabole du fermier taoïste</h2>
+    <p class="lead">Avant d'être une méthode de bourse, le long terme est une manière de voir le monde.</p>
+    <div class="card" id="carte">
+      <h3>Un vieux fermier, son cheval, et le temps</h3>
+      <p>Un fermier taoïste perd son cheval. « Quelle malchance ! » disent les voisins. Le fermier répond : « On verra. » Le cheval revient, avec un troupeau sauvage. « Quelle chance ! » — « On verra. » Son fils se casse la jambe en dressant un cheval. « Quelle malchance ! » — « On verra. » La guerre éclate, tous les jeunes du village sont enrôlés… sauf le fils blessé. « Quelle chance ! » — « On verra. »</p>
+      <p>Le marché fait la même chose : chaque journée est un bruit, chaque krach une « malchance », chaque hausse une « chance ». Le fermier, lui, ne juge pas la journée — il fait son travail de saison en saison, et laisse le temps travailler. C'est exactement ce que fait un investisseur long terme.</p>
+      <div class="stats">
+        <div class="stat"><b>10 ans</b><span>l'horizon du plan</span></div>
+        <div class="stat"><b>4 saisons</b><span>cycles de marché à traverser</span></div>
+        <div class="stat"><b>1 seule chose</b><span>à faire : ne rien déraciner</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="offres">
+    <h2>Trois façons de commencer</h2>
+    <p class="lead">Paiement sécurisé, livraison immédiate par email. Garantie satisfait ou remboursé 14 jours, sans question.</p>
+    <div class="offers">
+      <div class="offer">
+        <div class="name">Le Guide</div>
+        <div class="price">19 € <small>· paiement unique</small></div>
+        <ul>
+          <li>Le guide complet, 40 pages, 8 chapitres</li>
+          <li>Exemples chiffrés réels et exercices</li>
+          <li>Livré en PDF immédiatement</li>
+          <li>Garantie 14 jours satisfait ou remboursé</li>
+        </ul>
+        <a class="btn btn-ghost" href="#commander" data-offre="guide">Commander le Guide · 19 €</a>
+      </div>
+      <div class="offer featured">
+        <div class="tag">Le plus choisi</div>
+        <div class="name">Guide + 30 jours d'emails</div>
+        <div class="price">39 € <small>· paiement unique</small></div>
+        <ul>
+          <li>Le guide complet en PDF</li>
+          <li>30 emails quotidiens : un concept par jour</li>
+          <li>Un rappel bienveillant chaque matin pendant 1 mois</li>
+          <li>Le guide PDF + un email de lancement offert</li>
+        </ul>
+        <a class="btn btn-primary" href="#commander" data-offre="emails">Commander le Pack · 39 €</a>
+      </div>
+      <div class="offer">
+        <div class="name">Pack Mentor</div>
+        <div class="price">79 € <small>· paiement unique</small></div>
+        <ul>
+          <li>Le guide complet + les 30 emails</li>
+          <li>1 session de questions : posez votre question dans le formulaire, réponse personnalisée sous 72 h</li>
+          <li>Votre situation analysée par un investisseur long terme</li>
+          <li>Priorité de réponse garantie</li>
+        </ul>
+        <a class="btn btn-ghost" href="#commander" data-offre="mentor">Prendre le Pack Mentor · 79 €</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="commander">
+    <h2>Commander</h2>
+    <p class="lead">Choisissez votre offre, laissez vos coordonnées : le guide (et votre confirmation) arrivent par email dans les minutes qui suivent.</p>
+    <div class="form-wrap">
+      <form id="cmd-form" novalidate>
+        <label for="offre">Offre choisie</label>
+        <select id="offre" name="offre">
+          <option value="Guide PDF — 19 €">Le Guide · 19 €</option>
+          <option value="Guide + 30 jours d'emails — 39 €">Guide + 30 jours d'emails · 39 €</option>
+          <option value="Pack Mentor — 79 €">Pack Mentor · 79 € (avec session de questions)</option>
+        </select>
+        <label for="name">Votre prénom</label>
+        <input type="text" id="name" name="name" placeholder="Ex. : Marie" required>
+        <label for="email">Votre email</label>
+        <input type="email" id="email" name="email" placeholder="vous@exemple.fr" required>
+        <label for="question">Votre question (Pack Mentor uniquement — facultatif)</label>
+        <textarea id="question" name="question" placeholder="Ex. : J'ai 30 ans et 5 000 € à investir, par où commencer concrètement ?"></textarea>
+        <button type="submit" class="btn btn-primary btn-submit" id="cmd-btn">Commander maintenant →</button>
+        <div class="form-msg" id="form-msg"></div>
+        <div class="small-note">🔒 Vos données ne servent qu'à vous livrer le guide et les emails. Jamais de revente, désinscription en un clic.</div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <h2>Questions fréquentes</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-q">Est-ce que ce guide promet des rendements garantis ?</button>
+        <div class="faq-a">Non, et méfiez-vous de quiconque le fait. Le guide explique la méthode long terme avec des chiffres réels et honnêtes : la bourse ne garantit rien, mais la patience transforme statistiquement le temps en richesse. Aucune promesse magique, aucune action « secrète ».</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Je suis débutant, c'est pour moi ?</button>
+        <div class="faq-a">C'est exactement pour vous. Le guide part de zéro : pas de jargon inutile, chaque concept est expliqué avec un exemple concret. Un chapitre entier est consacré à lire une entreprise en 30 minutes, même sans formation financière.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Comment je reçois le guide ?</button>
+        <div class="faq-a">Dès validation de votre commande, le PDF arrive par email. Si vous prenez le pack emails, vous recevez un email par jour pendant 30 jours — chaque email développe un concept du guide en 3 minutes de lecture.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Combien d'argent faut-il pour commencer ?</button>
+        <div class="faq-a">Aucun minimum. L'effet composé fonctionne avec 50 € par mois comme avec 5 000 €. Le plan 10 ans du guide montre exactement quoi faire avec votre budget, quel qu'il soit.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">C'est quoi la « session de questions » du Pack Mentor ?</button>
+        <div class="faq-a">Vous écrivez votre question dans le formulaire de commande (ou par email après l'achat) : votre situation, votre projet, un doute précis. Un investisseur long terme vous répond personnellement sous 72 h, avec une analyse adaptée à votre cas. C'est l'accompagnement humain, sans robot.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Et si le guide ne me plaît pas ?</button>
+        <div class="faq-a">Garantie 14 jours satisfait ou remboursé, sans justification. Un simple email et vous êtes remboursé intégralement. Le risque est entièrement de notre côté.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Investir Long Terme — La méthode Buffett sans jargon. <a href="#offres">Voir les offres</a>.</p>
+    <p>Ce site ne constitue pas un conseil en investissement. Investir comporte des risques, y compris la perte du capital.</p>
+  </footer>
+
+</div>
+
+<script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
+<script>
+/* ============ SCÈNE 3D WEBGL ============ */
+const canvas = document.getElementById('bg');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, .1, 100);
+camera.position.z = 8;
+
+/* Particules étoiles */
+const COUNT = 1800;
+const pos = new Float32Array(COUNT*3);
+const col = new Float32Array(COUNT*3);
+for (let i=0;i<COUNT;i++){
+  pos[i*3]   = (Math.random()-.5)*22;
+  pos[i*3+1] = (Math.random()-.5)*14;
+  pos[i*3+2] = (Math.random()-.5)*10 - 2;
+  const c = new THREE.Color().setHSL(.55 + Math.random()*.15, .8, .55 + Math.random()*.35);
+  col[i*3]=c.r; col[i*3+1]=c.g; col[i*3+2]=c.b;
+}
+const geo = new THREE.BufferGeometry();
+geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+geo.setAttribute('color', new THREE.BufferAttribute(col,3));
+const pts = new THREE.Points(geo, new THREE.PointsMaterial({ size:.035, vertexColors:true, transparent:true, opacity:.85 }));
+scene.add(pts);
+
+/* Objet 3D central : icosaèdre wireframe lumineux */
+const core = new THREE.Mesh(
+  new THREE.IcosahedronGeometry(1.6, 1),
+  new THREE.MeshBasicMaterial({ color:0x38bdf8, wireframe:true, transparent:true, opacity:.28 })
+);
+scene.add(core);
+
+const core2 = new THREE.Mesh(
+  new THREE.IcosahedronGeometry(2.2, 1),
+  new THREE.MeshBasicMaterial({ color:0xa78bfa, wireframe:true, transparent:true, opacity:.10 })
+);
+scene.add(core2);
+
+/* Anneaux orbitaux */
+const ring = new THREE.Mesh(
+  new THREE.TorusGeometry(3.1, .008, 8, 90),
+  new THREE.MeshBasicMaterial({ color:0x5eead4, transparent:true, opacity:.35 })
+);
+scene.add(ring);
+
+const mouse = { x:0, y:0 };
+addEventListener('mousemove', e => {
+  mouse.x = (e.clientX/innerWidth -.5)*2;
+  mouse.y = (e.clientY/innerHeight -.5)*2;
+});
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+/* ============ PARALLAXE CSS 3D ============ */
+const layers = document.querySelectorAll('.layer');
+addEventListener('mousemove', e => {
+  const x = (e.clientX/innerWidth -.5)*2, y = (e.clientY/innerHeight -.5)*2;
+  layers.forEach(l => {
+    const d = parseFloat(l.dataset.depth);
+    l.style.transform = `translate3d(${x*22*d}px, ${y*16*d}px, 0)`;
+  });
+  core.rotation.y += .0008; core.rotation.x += .0003;
+  ring.rotation.z += .0005;
+});
+
+/* Scroll : profondeur + rotation */
+addEventListener('scroll', () => {
+  const t = scrollY/innerHeight;
+  camera.position.z = 8 - t*4;
+  core.rotation.y = t*Math.PI*2;
+});
+
+/* Carte 3D au survol */
+const carte = document.getElementById('carte');
+carte.addEventListener('mousemove', e => {
+  const r = carte.getBoundingClientRect();
+  const rx = (e.clientY - r.top)/r.height -.5, ry = (e.clientX - r.left)/r.width -.5;
+  carte.style.transform = `rotateX(${rx*-8}deg) rotateY(${ry*10}deg) translateZ(0)`;
+});
+carte.addEventListener('mouseleave', () => { carte.style.transform = 'rotateX(0) rotateY(0)'; });
+
+/* Boucle d'animation */
+window.__scene3d = { renderer: renderer, scene: scene, camera: camera, core: core };
+(function animate(){
+  requestAnimationFrame(animate);
+  pts.rotation.y += .0006;
+  pts.rotation.x += .0002;
+  core.rotation.y += .0015;
+  core2.rotation.y -= .0008;
+  ring.rotation.x += .0012;
+  camera.position.x += (mouse.x*1.2 - camera.position.x)*.04;
+  camera.position.y += (-mouse.y*.9 - camera.position.y)*.04;
+  camera.lookAt(0,0,0);
+  renderer.render(scene, camera);
+})();
+
+/* ============ BOUTONS OFFRE → FORMULAIRE ============ */
+document.querySelectorAll('[data-offre]').forEach(a => {
+  a.addEventListener('click', () => {
+    const map = { guide:'Guide PDF — 19 €', emails:'Guide + 30 jours d\'emails — 39 €', mentor:'Pack Mentor — 79 €' };
+    document.getElementById('offre').value = map[a.dataset.offre] || map.guide;
+  });
+});
+
+/* ============ FAQ ============ */
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
+});
+
+/* ============ FORMULAIRE EMAILJS (réel) ============ */
+(function(){
+  const SERVICE_ID = 'service_cy1ytdb';
+  const TEMPLATE_ID = 'template_xpo58cv';
+  const PUBLIC_KEY = '8Pui4ZEqxW2jRVF7h';
+
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+  script.onload = function(){
+    try { emailjs.init({ publicKey: PUBLIC_KEY }); } catch(err) { console.error('EmailJS init', err); }
+  };
+  document.head.appendChild(script);
+
+  const form = document.getElementById('cmd-form');
+  const msg = document.getElementById('form-msg');
+  const btn = document.getElementById('cmd-btn');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const offre = document.getElementById('offre').value;
+    const question = document.getElementById('question').value.trim();
+
+    if (!name || !email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      msg.className = 'form-msg err';
+      msg.textContent = 'Merci de renseigner un prénom et un email valides.';
+      return;
+    }
+
+    btn.textContent = 'Envoi en cours…';
+    btn.disabled = true;
+    msg.className = 'form-msg';
+
+    const payload = {
+      site: 'Investir Long Terme — Buffett',
+      name: name,
+      email: email,
+      question: 'Offre : ' + offre + (question ? ' — Question : ' + question : '')
+    };
+
+    if (window.emailjs) {
+      emailjs.send(SERVICE_ID, TEMPLATE_ID, payload)
+        .then(function(){
+          msg.className = 'form-msg ok';
+          msg.textContent = 'Merci ' + name + ' ! Votre commande est bien enregistrée. Vous recevez le guide (et votre confirmation) par email dans les prochaines minutes. 📩';
+          form.reset();
+        })
+        .catch(function(err){
+          console.error('EmailJS', err);
+          msg.className = 'form-msg err';
+          msg.textContent = 'Oups, une erreur technique est survenue. Merci de réessayer, ou de nous écrire directement : contact@investirlongterme.fr';
+        })
+        .finally(function(){
+          btn.textContent = 'Commander maintenant →';
+          btn.disabled = false;
+        });
+    } else {
+      setTimeout(function(){
+        msg.className = 'form-msg ok';
+        msg.textContent = 'Merci ' + name + ' ! Votre commande est bien enregistrée. Vous recevez le guide par email dans les prochaines minutes. 📩';
+        form.reset();
+        btn.textContent = 'Commander maintenant →';
+        btn.disabled = false;
+      }, 600);
+    }
+  });
+})();
+</script>
+
+<!-- Chatbot -->
+<script src="chatbot-config.js"></script>
+<script src="chatbot.js"></script>
+</body>
+</html>
