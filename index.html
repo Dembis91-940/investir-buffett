@@ -11,6 +11,22 @@
 <meta property="og:locale" content="fr_FR">
 <meta name="twitter:card" content="summary">
 <meta name="description" content="Le guide complet pour investir en bourse comme Buffett : mentalité long terme, cercle de compétence, marge de sécurité, effet composé. Sans être riche. Sans stress.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Guide Investir Long Terme — méthode Buffett",
+  "description": "Un guide de 40 pages pour investir en bourse sur le long terme : mentalité long terme, cercle de compétence, marge de sécurité, effet composé et plan 10 ans. Sans jargon.",
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "EUR",
+    "lowPrice": "19",
+    "highPrice": "79",
+    "offerCount": "3",
+    "availability": "https://schema.org/InStock"
+  }
+}
+</script>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:'Segoe UI', system-ui, sans-serif; background:#070b14; color:#e8ecf5; overflow-x:hidden; }
@@ -114,6 +130,12 @@
 
   footer { padding:3rem 2rem; text-align:center; color:#5b6b85; font-size:.82rem; line-height:1.7; }
   footer a { color:#7dd3fc; text-decoration:none; }
+  /* ---------- Révélation au scroll ---------- */
+  .reveal { opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity:1; transform:none; transition:none; }
+  }
 </style>
 </head>
 <body>
@@ -155,7 +177,7 @@
   <section class="section" id="methode">
     <h2>Ce que le guide contient</h2>
     <p class="lead">8 chapitres denses, chacun avec une leçon, un exemple chiffré réel et un exercice. Rien à vendre d'autre : une méthode de 40 pages, applicable dès ce soir.</p>
-    <div class="grid">
+    <div class="grid reveal">
       <div class="chap"><div class="num">Chapitre 1</div><h3>La mentalité long terme</h3><p>Pourquoi la durée est le seul avantage que tout le monde peut avoir — et presque personne n'utilise.</p></div>
       <div class="chap"><div class="num">Chapitre 2</div><h3>Le cercle de compétence</h3><p>Investir uniquement dans ce que vous comprenez vraiment. Le bord du cercle, c'est là que se font les pertes.</p></div>
       <div class="chap"><div class="num">Chapitre 3</div><h3>La marge de sécurité</h3><p>Acheter 1 € d'actif à 60 centimes : le seul moyen honnête de ne jamais perdre gros.</p></div>
@@ -184,8 +206,8 @@
 
   <section class="section" id="offres">
     <h2>Trois façons de commencer</h2>
-    <p class="lead">Paiement sécurisé, livraison immédiate par email. Garantie satisfait ou remboursé 14 jours, sans question.</p>
-    <div class="offers">
+    <p class="lead">Paiement par virement ou message direct, livraison immédiate par email. Garantie satisfait ou remboursé 14 jours, sans question.</p>
+    <div class="offers reveal">
       <div class="offer">
         <div class="name">Le Guide</div>
         <div class="price">19 € <small>· paiement unique</small></div>
@@ -226,7 +248,7 @@
   <section class="section" id="commander">
     <h2>Commander</h2>
     <p class="lead">Choisissez votre offre, laissez vos coordonnées : le guide (et votre confirmation) arrivent par email dans les minutes qui suivent.</p>
-    <div class="form-wrap">
+    <div class="form-wrap reveal">
       <form id="cmd-form" novalidate>
         <label for="offre">Offre choisie</label>
         <select id="offre" name="offre">
@@ -242,14 +264,14 @@
         <textarea id="question" name="question" placeholder="Ex. : J'ai 30 ans et 5 000 € à investir, par où commencer concrètement ?"></textarea>
         <button type="submit" class="btn btn-primary btn-submit" id="cmd-btn">Commander maintenant →</button>
         <div class="form-msg" id="form-msg"></div>
-        <div class="small-note">🔒 Vos données ne servent qu'à vous livrer le guide et les emails. Jamais de revente, désinscription en un clic.</div>
+        <div class="small-note">🔒 Vos données ne servent qu'à vous livrer le guide et les emails. Jamais de revente, désinscription en un clic. Paiement par virement ou message direct : le lien de paiement vous est envoyé par email.</div>
       </form>
     </div>
   </section>
 
   <section class="section" id="faq">
     <h2>Questions fréquentes</h2>
-    <div class="faq">
+    <div class="faq reveal">
       <div class="faq-item">
         <button class="faq-q">Est-ce que ce guide promet des rendements garantis ?</button>
         <div class="faq-a">Non, et méfiez-vous de quiconque le fait. Le guide explique la méthode long terme avec des chiffres réels et honnêtes : la bourse ne garantit rien, mais la patience transforme statistiquement le temps en richesse. Aucune promesse magique, aucune action « secrète ».</div>
@@ -473,6 +495,19 @@ document.querySelectorAll('.faq-q').forEach(q => {
 })();
 </script>
 
+<script>
+/* Révélation au scroll — progressif, non intrusif */
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) { for (var i=0;i<els.length;i++) els[i].classList.add('visible'); return; }
+  var io = new IntersectionObserver(function(entries){
+    for (var j=0;j<entries.length;j++){
+      if (entries[j].isIntersecting || entries[j].boundingClientRect.top < window.innerHeight) { entries[j].target.classList.add('visible'); io.unobserve(entries[j].target); }
+    }
+  }, { threshold:.12, rootMargin:'0px 0px -8% 0px' });
+  for (var k=0;k<els.length;k++) io.observe(els[k]);
+})();
+</script>
 <!-- Chatbot -->
 <script src="chatbot-config.js"></script>
 <script src="chatbot.js"></script>
