@@ -26,9 +26,9 @@
   .nav a:hover { color:#7dd3fc; }
 
   /* Hero */
-  .hero { position:relative; height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; perspective:1000px; }
-  .hero-inner { transform-style:preserve-3d; }
-  .layer { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; will-change:transform; }
+  .hero { position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; perspective:1000px; padding:6rem 0 4rem; }
+  .hero-inner { transform-style:preserve-3d; width:100%; max-width:1100px; display:flex; flex-direction:column; align-items:center; }
+  .layer { margin:1.6rem 0;  position:relative; display:flex; align-items:center; justify-content:center; width:100%; will-change:transform; margin:1.6rem 0; }
   .title { font-size:clamp(2.2rem, 6vw, 4.8rem); font-weight:800; letter-spacing:-0.02em; line-height:1.08;
            background:linear-gradient(120deg,#5eead4,#38bdf8,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent;
            text-shadow:0 0 40px rgba(56,189,248,.25); }
@@ -36,7 +36,7 @@
   .badge { display:inline-flex; align-items:center; gap:.5rem; background:rgba(56,189,248,.12); border:1px solid rgba(56,189,248,.35);
            color:#7dd3fc; font-size:.8rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase;
            padding:.45rem 1.1rem; border-radius:999px; margin-bottom:1.6rem; }
-  .subtitle { font-size:clamp(1rem, 2vw, 1.35rem); color:#9fb0c9; margin-top:1.2rem; font-weight:300; max-width:640px; margin-left:auto; margin-right:auto; line-height:1.6; }
+  .subtitle { line-height:1.5; font-size:clamp(1rem, 2vw, 1.35rem); color:#9fb0c9; margin-top:1.2rem; font-weight:300; max-width:640px; margin-left:auto; margin-right:auto; line-height:1.6; }
   .cta { margin-top:2.4rem; display:inline-flex; gap:.8rem; flex-wrap:wrap; justify-content:center; }
   .btn { padding:.9rem 2rem; border-radius:999px; font-weight:600; text-decoration:none; transition:transform .2s, box-shadow .2s; display:inline-block; }
   .btn-primary { background:linear-gradient(120deg,#0ea5e9,#7c3aed); color:#fff; box-shadow:0 0 30px rgba(124,58,237,.4); }
@@ -139,10 +139,10 @@
           <div class="title">La patience est un avantage.<br><span class="accent">Investir comme Buffett, sans être riche.</span></div>
         </div>
       </div>
-      <div class="layer" data-depth="0.55" style="top:60%">
+      <div class="layer" data-depth="0.55">
         <div class="subtitle">Un guide dense, chiffré, sans promesses magiques : la mentalité long terme, le cercle de compétence, la marge de sécurité et l'effet composé — pour bâtir un patrimoine en bourse sur 10 ans, sans y passer vos journées.</div>
       </div>
-      <div class="layer" data-depth="0.7" style="top:80%">
+      <div class="layer" data-depth="0.7">
         <div class="cta">
           <a class="btn btn-primary" href="#offres">Voir les offres →</a>
           <a class="btn btn-ghost" href="#methode">La méthode en 8 chapitres</a>
@@ -352,7 +352,7 @@ addEventListener('mousemove', e => {
   const x = (e.clientX/innerWidth -.5)*2, y = (e.clientY/innerHeight -.5)*2;
   layers.forEach(l => {
     const d = parseFloat(l.dataset.depth);
-    l.style.transform = `translate3d(${x*22*d}px, ${y*16*d}px, 0)`;
+    l.style.transform = `translate3d(${x*14*d}px, ${y*7*d}px, 0)`;
   });
   core.rotation.y += .0008; core.rotation.x += .0003;
   ring.rotation.z += .0005;
