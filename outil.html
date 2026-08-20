@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulateur d'investissement long terme — DCA & intérêts composés</title>
+<meta name="description" content="Simulez un plan d'investissement mensuel (DCA) : capital versé, intérêts composés, courbe année par année. Combien vaudra votre patrimoine dans 10, 20 ou 30 ans ?">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%93%88%3C%2Ftext%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:'Inter',system-ui,sans-serif;
+    background:
+      radial-gradient(58% 44% at 16% 10%, rgba(227,179,65,.15), transparent 62%),
+      radial-gradient(50% 40% at 88% 22%, rgba(245,217,122,.10), transparent 60%),
+      radial-gradient(54% 46% at 60% 94%, rgba(200,149,44,.12), transparent 64%),
+      #0B0F0A;
+    background-attachment:fixed;
+    color:#F2EDE0; min-height:100vh; overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:linear-gradient(rgba(227,179,65,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(227,179,65,.05) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse 92% 72% at 50% 0%, #000 32%, transparent 100%);
+    mask-image:radial-gradient(ellipse 92% 72% at 50% 0%, #000 32%, transparent 100%);
+  }
+  h1,h2,h3,.kicker,.logo{font-family:'Cormorant Garamond',serif;letter-spacing:-.01em}
+  ::selection{background:rgba(227,179,65,.4)}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:#0B0F0A}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#E3B341,#C8952C);border-radius:99px;border:3px solid #0B0F0A}
+  .wrap{max-width:900px;margin:0 auto;padding:0 22px;position:relative;z-index:1}
+
+  header{display:flex;align-items:center;gap:14px;padding:22px 0;border-bottom:1px solid rgba(227,179,65,.2);background:rgba(16,21,14,.78);backdrop-filter:blur(16px) saturate(170%);-webkit-backdrop-filter:blur(16px) saturate(170%)}
+  header .wrap{display:flex;align-items:center;gap:14px;width:100%}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;color:#F2EDE0;text-decoration:none}
+  .logo .mark{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#E3B341,#C8952C);display:flex;align-items:center;justify-content:center;font-size:17px;color:#0B0F0A;box-shadow:0 0 22px rgba(227,179,65,.45)}
+  .logo span.grad{color:#F5D97A}
+  .logo small{display:block;font-size:10px;font-weight:600;letter-spacing:1.6px;color:#7E8A72;text-transform:uppercase;font-family:'Inter',sans-serif}
+  header a.retour{margin-left:auto;color:#F5D97A;text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap}
+  header a.retour:hover{text-shadow:0 0 14px rgba(227,179,65,.9)}
+
+  .kicker{margin-top:48px;display:inline-block;font-size:12px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:#FFE9A8;background:rgba(227,179,65,.09);border:1px solid rgba(227,179,65,.42);padding:6px 14px;border-radius:999px}
+  h1{font-size:clamp(30px,4.2vw,46px);font-weight:700;line-height:1.12;margin:16px 0 12px;max-width:820px}
+  h1 .hl{background:linear-gradient(120deg,#34D399,#E3B341,#C8952C);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .intro{color:#A9B29B;font-size:16.5px;max-width:680px;line-height:1.7}
+  .intro strong{color:#F2EDE0}
+
+  .etapes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+  .etape{background:linear-gradient(160deg, rgba(227,179,65,.09), rgba(200,149,44,.04));backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border:1px solid rgba(227,179,65,.28);border-radius:18px;padding:16px 16px 14px}
+  .etape .n{font-size:11px;font-weight:700;letter-spacing:2px;color:#F5D97A;font-family:'Cormorant Garamond',serif;text-transform:uppercase}
+  .etape p{font-size:13px;color:#A9B29B;margin-top:5px;line-height:1.5}
+
+  .card{background:linear-gradient(160deg, rgba(227,179,65,.09), rgba(200,149,44,.04));backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border:1px solid rgba(227,179,65,.28);border-radius:22px;padding:34px 36px;margin-top:30px;box-shadow:0 24px 60px -30px rgba(0,0,0,.75)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 34px}
+  .champ{margin-bottom:22px}
+  .champ label{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;font-weight:600;margin-bottom:9px;color:#dbe4f0}
+  .champ label .val{font-weight:800;font-size:20px;color:#F5D97A}
+  .champ input[type=range]{width:100%;accent-color:#E3B341;cursor:pointer;height:6px}
+  .range-vals{display:flex;justify-content:space-between;font-size:12px;color:#7E8A72;margin-top:4px}
+  .champ input[type=number], .champ input[type=month]{width:100%;background:rgba(227,179,65,.07);border:1px solid rgba(227,179,65,.28);color:#F2EDE0;border-radius:12px;padding:13px 15px;font-size:15px;font-family:inherit;outline:none;transition:border-color .25s, box-shadow .25s}
+  .champ input:focus{border-color:rgba(227,179,65,.7);box-shadow:0 0 0 3px rgba(227,179,65,.16)}
+  .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:linear-gradient(135deg,#E3B341,#C8952C);color:#0B0F0A;font-weight:700;border:none;cursor:pointer;border-radius:999px;padding:15px 32px;font-size:16px;font-family:inherit;box-shadow:0 10px 32px -10px rgba(227,179,65,.7);text-decoration:none;transition:transform .25s, box-shadow .25s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 16px 46px -10px rgba(227,179,65,.9)}
+  .btn-ghost{background:rgba(227,179,65,.09);color:#F2EDE0;border:1px solid rgba(227,179,65,.42);box-shadow:none}
+  .btn-ghost:hover{border-color:rgba(227,179,65,.7);box-shadow:0 0 34px -6px rgba(227,179,65,.5)}
+  .note{font-size:12px;color:#7E8A72;margin-top:12px;line-height:1.6}
+
+  .resultat{display:none;margin-top:40px}
+  .resultat.visible{display:block;animation:apparaitre .4s ease}
+  @keyframes apparaitre{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .res-head h2{font-size:24px;color:#FFE9A8}
+  .cartes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+  .r-card{background:rgba(13,18,32,.7);border:1px solid rgba(227,179,65,.28);border-radius:18px;padding:22px 20px;text-align:center;backdrop-filter:blur(12px)}
+  .r-card .lib{font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:#7E8A72}
+  .r-card .num{font-size:27px;font-weight:800;margin-top:8px;color:#F5D97A;line-height:1.15}
+  .r-card .num.gold{background:linear-gradient(120deg,#34D399,#E3B341,#C8952C);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .r-card .sub{font-size:12.5px;color:#A9B29B;margin-top:6px;line-height:1.5}
+
+  .verdict{margin-top:22px;background:rgba(227,179,65,.08);border:1px solid rgba(227,179,65,.45);border-radius:16px;padding:20px 24px;font-size:15px;line-height:1.75;color:#F2EDE0}
+  .verdict b{color:#F5D97A}
+  .verdict .em{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:#FFE9A8}
+
+  .bloc{background:linear-gradient(160deg, rgba(227,179,65,.08), rgba(200,149,44,.03));border:1px solid rgba(227,179,65,.25);border-radius:18px;padding:24px 26px;margin-top:24px}
+  .bloc h3{font-size:19px;color:#F5D97A;margin-bottom:14px}
+  .legende{display:flex;gap:20px;flex-wrap:wrap;font-size:12.5px;color:#A9B29B;margin-bottom:14px}
+  .legende span{display:inline-flex;align-items:center;gap:7px}
+  .dot{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .dot.cap{background:#E3B341}
+  .dot.int{background:#34D399}
+  .chart{display:flex;align-items:flex-end;gap:3px;height:230px;border-bottom:1px solid rgba(227,179,65,.3);padding-top:8px}
+  .bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;border-radius:3px 3px 0 0;overflow:hidden;min-width:4px}
+  .bar .cap{background:linear-gradient(180deg,#F5D97A,#C8952C);width:100%}
+  .bar .int{background:linear-gradient(180deg,#6ee7b7,#0d9488);width:100%}
+  .bar:hover{filter:brightness(1.2)}
+  .chart-x{display:flex;justify-content:space-between;font-size:11px;color:#7E8A72;margin-top:6px;font-family:'Inter',sans-serif}
+  .tbl{overflow-x:auto;margin-top:14px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:#F5D97A;text-align:right;padding:10px 12px;border-bottom:1px solid rgba(227,179,65,.35);white-space:nowrap}
+  th:first-child{text-align:left}
+  td{color:#A9B29B;text-align:right;padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.06);white-space:nowrap}
+  td:first-child{text-align:left;color:#F2EDE0;font-weight:600}
+  tr:hover td{background:rgba(227,179,65,.05)}
+  .tbl-wrap{max-height:340px;overflow-y:auto;margin-top:14px;border:1px solid rgba(227,179,65,.18);border-radius:12px}
+  .tbl-wrap table{margin:0}
+
+  .cta-bloc{background:linear-gradient(160deg,rgba(13,18,32,.85),rgba(16,21,14,.9));border:1px solid rgba(227,179,65,.35);border-radius:22px;padding:38px;text-align:center;margin:44px 0 10px;backdrop-filter:blur(14px)}
+  .cta-bloc h2{font-size:clamp(22px,3vw,30px);font-weight:700;background:linear-gradient(120deg,#a5f3fc,#C8952C);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cta-bloc p{color:#A9B29B;margin:12px auto 24px;max-width:540px;line-height:1.7}
+  .cta-bloc .prix{margin-top:14px;font-size:13px;color:#7E8A72}
+  .cta-bloc .prix strong{color:#F5D97A}
+  footer{margin-top:46px;padding:26px 0 40px;border-top:1px solid rgba(255,255,255,.08);color:#5E6A52;font-size:13px;text-align:center;line-height:1.8}
+  footer a{color:#F5D97A;text-decoration:none}
+
+  @media(max-width:680px){.etapes{grid-template-columns:1fr}.card{padding:26px 20px}.cartes{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="index.html"><span class="mark">📈</span><span>Investir<small>Long terme</small><span class="grad"> · Méthode Buffett</span></span></a>
+    <a class="retour" href="index.html">← Retour à l'accueil</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="kicker">Outil gratuit · Simulation 100 % locale</div>
+  <h1>Combien vaudra votre patrimoine <span class="hl">dans 10, 20 ou 30 ans ?</span></h1>
+  <p class="intro">Le <strong>DCA</strong> (investir un montant fixe chaque mois) est la méthode long terme de Buffett : régulière, sans timing, sans stress. Ce simulateur calcule la valeur finale, sépare <strong>capital versé</strong> et <strong>intérêts composés</strong>, et vous montre l'effet du temps, année par année.</p>
+
+  <div class="etapes">
+    <div class="etape"><div class="n">Étape 1</div><p>Réglez votre versement mensuel, votre taux annuel et la durée.</p></div>
+    <div class="etape"><div class="n">Étape 2</div><p>Cliquez sur « Simuler » : courbe, tableau et verdict apparaissent.</p></div>
+    <div class="etape"><div class="n">Étape 3</div><p>Comparez vos scénarios : c'est le temps qui fait le gros du travail.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="grid2">
+      <div class="champ">
+        <label for="montant">Versement mensuel (DCA) <span class="val" id="v-montant">200 €</span></label>
+        <input type="range" id="montant" min="10" max="2000" step="10" value="200">
+        <div class="range-vals"><span>10 €</span><span>2 000 € / mois</span></div>
+      </div>
+      <div class="champ">
+        <label for="taux">Taux annuel moyen <span class="val" id="v-taux">7 %</span></label>
+        <input type="range" id="taux" min="0" max="30" step="0.5" value="7">
+        <div class="range-vals"><span>0 %</span><span>30 % / an</span></div>
+      </div>
+      <div class="champ">
+        <label for="annees">Durée de l'investissement <span class="val" id="v-annees">15 ans</span></label>
+        <input type="range" id="annees" min="1" max="40" step="1" value="15">
+        <div class="range-vals"><span>1 an</span><span>40 ans</span></div>
+      </div>
+      <div class="champ">
+        <label for="debut">Point de départ <span class="val" id="v-debut">—</span></label>
+        <input type="month" id="debut">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="btn-simuler">🧮 Simuler ma projection →</button>
+      <button class="btn btn-ghost" id="btn-reset">↺ Réinitialiser</button>
+    </div>
+    <p class="note">Estimation à intérêts composés mensuels, versements en fin de mois, sans frais ni fiscalité. Aucun rendement n'est garanti : la bourse comporte des risques, y compris la perte du capital. Ce simulateur n'est pas un conseil en investissement.</p>
+  </div>
+
+  <div class="resultat" id="resultat">
+    <div class="res-head"><h2>📊 Votre projection long terme</h2></div>
+    <div class="cartes">
+      <div class="r-card"><div class="lib">Capital versé</div><div class="num" id="r-capital">—</div><div class="sub">vos versements cumulés</div></div>
+      <div class="r-card"><div class="lib">Valeur finale estimée</div><div class="num gold" id="r-valeur">—</div><div class="sub">à l'échéance</div></div>
+      <div class="r-card"><div class="lib">Intérêts composés</div><div class="num" id="r-interets">—</div><div class="sub">gagnés par le temps</div></div>
+    </div>
+    <div class="verdict" id="verdict"></div>
+
+    <div class="bloc">
+      <h3>La courbe : capital vs intérêts composés</h3>
+      <div class="legende">
+        <span><span class="dot cap"></span>Capital versé</span>
+        <span><span class="dot int"></span>Intérêts composés</span>
+      </div>
+      <div class="chart" id="chart"></div>
+      <div class="chart-x" id="chart-x"></div>
+    </div>
+
+    <div class="bloc">
+      <h3>Projection année par année</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Année</th><th>Capital versé</th><th>Intérêts cumulés</th><th>Valeur estimée</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="actions" style="margin-top:22px">
+      <a class="btn btn-ghost" href="index.html#offres">📚 Le guide complet : la méthode Buffett →</a>
+    </div>
+  </div>
+
+  <div class="cta-bloc">
+    <h2>La patience est un avantage.</h2>
+    <p>Le guide « Investir Long Terme » explique la méthode complète en 8 chapitres : mentalité, cercle de compétence, marge de sécurité, effet composé et plan 10 ans — sans jargon, avec des chiffres réels.</p>
+    <a class="btn" href="index.html#offres">Découvrir le guide →</a>
+    <div class="prix">À partir de <strong>19 €</strong> — garantie satisfait ou remboursé 14 jours</div>
+  </div>
+</div>
+
+<footer>
+  © 2026 Investir Long Terme — La méthode Buffett sans jargon. <a href="index.html">Retour au site</a>.<br>
+  Ce site ne constitue pas un conseil en investissement. Investir comporte des risques, y compris la perte du capital.
+</footer>
+
+<script>
+(function(){
+  var LS_KEY = 'simulateur-investir-v1';
+  var $ = function(id){ return document.getElementById(id); };
+
+  function fmt(n){
+    if (!isFinite(n)) return '—';
+    return Math.round(n).toLocaleString('fr-FR') + ' €';
+  }
+  function fmtPct(n){ return n.toLocaleString('fr-FR',{maximumFractionDigits:1}).replace(',',',') + ' %'; }
+
+  function projetter(){
+    var M = parseFloat($('montant').value) || 0;
+    var tauxAn = parseFloat($('taux').value) || 0;
+    var annees = parseInt($('annees').value, 10) || 1;
+    var i = tauxAn / 100 / 12;
+    var n = annees * 12;
+
+    var capital = M * n;
+    var valeur = i > 0 ? M * (Math.pow(1+i, n) - 1) / i : capital;
+    var interets = valeur - capital;
+
+    /* Année par année */
+    var rows = [];
+    for (var y=1; y<=annees; y++){
+      var m = y*12;
+      var val = i > 0 ? M * (Math.pow(1+i, m) - 1) / i : M*m;
+      var cap = M*m;
+      rows.push({ annee:y, capital:cap, valeur:val, interets:val-cap });
+    }
+
+    /* Première année où les intérêts cumulés dépassent le capital versé */
+    var crossover = null;
+    for (var y2=1; y2<=annees; y2++){
+      var r = rows[y2-1];
+      if (r.interets > r.capital){ crossover = y2; break; }
+    }
+
+    $('r-capital').textContent = fmt(capital);
+    $('r-valeur').textContent = fmt(valeur);
+    $('r-interets').textContent = fmt(interets);
+
+    /* Verdict */
+    var partInt = valeur > 0 ? (interets/valeur)*100 : 0;
+    var html = '';
+    if (annees < 5){
+      html += '🕰️ <b>5 ans, c\'est le minimum pour voir la magie opérer.</b> Sur '+annees+' an'+(annees>1?'s':'')+', vos intérêts pèsent <b>'+partInt.toFixed(0)+' %</b> de la valeur finale ('+fmt(interets)+'). Le temps est le principal ingrédient de la recette de Buffett : allongez l\'horizon et comparez.';
+    } else {
+      html += '💎 Vos intérêts composés pèsent <b>'+fmt(interets)+'</b>, soit <b>'+partInt.toFixed(0)+' %</b> de votre patrimoine final de '+fmt(valeur)+'.';
+      if (crossover){
+        html += '<br>⌛ Vos intérêts <b>dépassent vos versements à partir de l\'année '+crossover+'</b> : à partir de là, c\'est l\'argent qui travaille pour vous, plus seulement votre épargne.';
+      }
+    }
+    var doubleTps = tauxAn > 0 ? (72/tauxAn) : null;
+    if (doubleTps){
+      html += '<br><span class="em">« Règle de 72 : à '+tauxAn.toLocaleString('fr-FR')+' % par an, votre capital double tous les ~'+doubleTps.toFixed(1).replace('.',',')+' ans. La patience est un avantage. »</span>';
+    } else {
+      html += '<br><span class="em">« À 0 %, il n\'y a que vos versements : sans rendement, il n\'y a pas d\'effet composé. »</span>';
+    }
+    html += '<br><small style="color:#7E8A72">Simulation indicative, intérêts composés mensuels, sans frais ni fiscalité. Les marchés ne garantissent rien — c\'est la durée qui travaille.</small>';
+    $('verdict').innerHTML = html;
+
+    /* Courbe : barres empilées par année */
+    var maxV = rows[rows.length-1].valeur;
+    var chartHtml = '';
+    rows.forEach(function(r){
+      var hCap = Math.max(1.5, (r.capital/maxV)*100);
+      var hInt = Math.max(0, (r.interets/maxV)*100);
+      chartHtml += '<div class="bar" title="Année '+r.annee+' : '+fmt(r.valeur)+'">'
+        + '<div class="int" style="height:'+hInt+'%"></div>'
+        + '<div class="cap" style="height:'+hCap+'%"></div></div>';
+    });
+    $('chart').innerHTML = chartHtml;
+    var xHtml = '<span>'+rows[0].annee+'</span>';
+    for (var y3=5; y3<annees; y3+=5) xHtml += '<span>'+y3+'</span>';
+    xHtml += '<span>'+annees+'</span>';
+    $('chart-x').innerHTML = xHtml;
+
+    /* Tableau */
+    var tbody = '';
+    var anneeDebut = $('debut').value ? parseInt($('debut').value.slice(0,4),10) : new Date().getFullYear();
+    rows.forEach(function(r){
+      tbody += '<tr><td>'+r.annee+' ('+(anneeDebut+r.annee-1)+')</td><td>'+fmt(r.capital)+'</td><td>'+fmt(r.interets)+'</td><td style="color:#F5D97A;font-weight:600">'+fmt(r.valeur)+'</td></tr>';
+    });
+    $('tbody').innerHTML = tbody;
+
+    $('resultat').classList.add('visible');
+    $('resultat').scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  function majValeurs(){
+    $('v-montant').textContent = (parseFloat($('montant').value)||0).toLocaleString('fr-FR') + ' €';
+    $('v-taux').textContent = (parseFloat($('taux').value)||0).toLocaleString('fr-FR') + ' %';
+    $('v-annees').textContent = parseInt($('annees').value,10) + ' ans';
+    var d = $('debut').value;
+    if (d){
+      var p = d.split('-');
+      var mois = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+      $('v-debut').textContent = mois[parseInt(p[1],10)-1] + ' ' + p[0];
+    } else { $('v-debut').textContent = '—'; }
+    sauvegarder();
+  }
+
+  function sauvegarder(){
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify({
+        montant:$('montant').value, taux:$('taux').value, annees:$('annees').value, debut:$('debut').value
+      }));
+    } catch(e){}
+  }
+  function restaurer(){
+    try {
+      var raw = localStorage.getItem(LS_KEY);
+      if (!raw) return;
+      var d = JSON.parse(raw);
+      if (d.montant!==undefined && d.montant!==null) $('montant').value = d.montant;
+      if (d.taux!==undefined && d.taux!==null) $('taux').value = d.taux;
+      if (d.annees!==undefined && d.annees!==null) $('annees').value = d.annees;
+      if (d.debut) $('debut').value = d.debut;
+    } catch(e){}
+  }
+  function reset(){
+    try { localStorage.removeItem(LS_KEY); } catch(e){}
+    $('montant').value = 200; $('taux').value = 7; $('annees').value = 15;
+    var now = new Date(); $('debut').value = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+    majValeurs();
+    $('resultat').classList.remove('visible');
+  }
+
+  ['montant','taux','annees','debut'].forEach(function(id){
+    $(id).addEventListener('input', majValeurs);
+    $(id).addEventListener('change', majValeurs);
+  });
+  $('btn-simuler').addEventListener('click', projetter);
+  $('btn-reset').addEventListener('click', reset);
+
+  if (!$('debut').value){
+    var now = new Date();
+    $('debut').value = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+  }
+  restaurer();
+  majValeurs();
+})();
+</script>
+</body>
+</html>

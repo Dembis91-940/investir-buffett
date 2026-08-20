@@ -277,6 +277,21 @@ input:focus, select:focus, textarea:focus, .champ:focus {
    .price { color:var(--fv-a1); }
    .offer.featured { border-color:rgba(227,179,65,.5); box-shadow:0 0 40px rgba(227,179,65,.18); }
    
+/* ---------- Bouton outil ---------- */
+.btn-outil{
+  background:rgba(227,179,65,.09) !important;
+  border:1px solid rgba(227,179,65,.5) !important;
+  color:#FFE9A8 !important;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  box-shadow:0 0 24px -6px rgba(227,179,65,.3) !important;
+}
+.btn-outil:hover{
+  background:rgba(227,179,65,.18) !important;
+  border-color:#F5D97A !important;
+  box-shadow:0 0 40px -6px rgba(227,179,65,.6) !important;
+  transform:translateY(-3px);
+}
 /* ---------- Mobile ---------- */
 @media (max-width:760px) {
   .futur-bg::before { background-size:32px 32px; }
@@ -319,6 +334,7 @@ input:focus, select:focus, textarea:focus, .champ:focus {
       <div class="layer" data-depth="0.7">
         <div class="cta">
           <a class="btn btn-primary" href="#offres">Voir les offres →</a>
+          <a class="btn btn-outil" href="outil.html">📈 Essayer le simulateur →</a>
           <a class="btn btn-ghost" href="#methode">La méthode en 8 chapitres</a>
         </div>
       </div>
