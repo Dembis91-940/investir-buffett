@@ -272,9 +272,9 @@ input:focus, select:focus, textarea:focus, .champ:focus {
 }
 /* ---------- Extra par site ---------- */
 
-   .chap { border-left:2px solid var(--a1); }
-   .num { font-family:var(--mono); color:var(--a1); letter-spacing:.12em; }
-   .price { color:var(--a1); }
+   .chap { border-left:2px solid var(--fv-a1); }
+   .num { font-family:var(--mono); color:var(--fv-a1); letter-spacing:.12em; }
+   .price { color:var(--fv-a1); }
    .offer.featured { border-color:rgba(227,179,65,.5); box-shadow:0 0 40px rgba(227,179,65,.18); }
    
 /* ---------- Mobile ---------- */
@@ -310,7 +310,7 @@ input:focus, select:focus, textarea:focus, .champ:focus {
       <div class="layer" data-depth="0.45">
         <div>
           <div class="badge">Méthode Buffett · 10 ans · sans jargon</div>
-          <div class="title">L'investissement long terme se prépare <span style="background:linear-gradient(90deg,#60a5fa,#2563eb);-webkit-background-clip:text;background-clip:text;color:transparent;">avec méthode</span>, pas avec le hasard.</div>
+          <h1 class="title">L'investissement long terme se prépare <span style="background:linear-gradient(90deg,#60a5fa,#2563eb);-webkit-background-clip:text;background-clip:text;color:transparent;">avec méthode</span>, pas avec le hasard.</h1>
         </div>
       </div>
       <div class="layer" data-depth="0.55">
@@ -511,7 +511,7 @@ input:focus, select:focus, textarea:focus, .champ:focus {
 <script src="chatbot-config.js"></script>
 <script src="chatbot.js"></script>
 <script>
- → FORMULAIRE ============ */
+/* ============ CTA offres → FORMULAIRE ============ */
 document.querySelectorAll('[data-offre]').forEach(a => {
   a.addEventListener('click', () => {
     const map = { guide:'Guide PDF — 19 €', emails:'Guide + 30 jours d\'emails — 39 €', mentor:'Pack Mentor — 79 €' };
