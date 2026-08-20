@@ -1,7 +1,7 @@
 window.CHATBOT_CONFIG = {
   "name": "Investir Long Terme",
   "subtitle": "Votre assistant méthode Buffett",
-  "accent": "#38bdf8",
+  "accent": "#E3B341",
   "welcome": "Bonjour ! 👋 Je suis l'assistant Investir Long Terme. Guide 40 pages, pack emails 30 jours, session de questions : je vous réponds en 30 secondes.",
   "quick": [
     "C'est quoi le guide ?",
